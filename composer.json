@@ -1,7 +1,7 @@
 {
     "name": "seka19/laravel-forum",
     "description": "A Laravel 4/5 package providing a solid foundation for building discussion forums",
-    "keywords": ["laravel", "laravel-4", "laravel-5", "forum", "discuss"],
+    "keywords": ["laravel", "laravel-8", "forum", "discuss"],
     "license": "MIT",
     "authors": [
         {
@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "laravel/framework": "~5.4",
-        "doctrine/dbal": "^2.5"
+        "php": ">=7.4",
+        "laravel/framework": "^8.0",
+        "doctrine/dbal": "^3.0"
     },
     "autoload": {
         "psr-4": {
