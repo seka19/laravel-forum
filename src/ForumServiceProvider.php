@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -126,6 +127,11 @@ class ForumServiceProvider extends ServiceProvider
 
         foreach (config('forum.integration.policies.model') as $model => $policy) {
             $gate->policy($model, $policy);
+
+            while ($model && strpos($model, 'Riari\\Forum\\Models\\') !== 0 && $model !== Model::class) {
+                $model = get_parent_class($model);
+                $gate->policy($model, $policy);
+            }
         }
     }
 
