@@ -2,6 +2,12 @@
 
 return [
 
+    'models' => [
+        'category' => Riari\Forum\Models\Category::class,
+        'thread'   => Riari\Forum\Models\Thread::class,
+        'post'     => Riari\Forum\Models\Post::class
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Policies
@@ -15,9 +21,9 @@ return [
     'policies' => [
         'forum' => Riari\Forum\Policies\ForumPolicy::class,
         'model' => [
-            Riari\Forum\Models\Category::class  => Riari\Forum\Policies\CategoryPolicy::class,
-            Riari\Forum\Models\Thread::class    => Riari\Forum\Policies\ThreadPolicy::class,
-            Riari\Forum\Models\Post::class      => Riari\Forum\Policies\PostPolicy::class
+            'category' => Riari\Forum\Policies\CategoryPolicy::class,
+            'thread'   => Riari\Forum\Policies\ThreadPolicy::class,
+            'post'     => Riari\Forum\Policies\PostPolicy::class
         ]
     ],
 

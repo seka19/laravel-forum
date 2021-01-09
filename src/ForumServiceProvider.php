@@ -9,8 +9,6 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Riari\Forum\Console\Commands\RefreshStats;
 use Riari\Forum\Http\Middleware\APIAuth;
-use Riari\Forum\Models\Post;
-use Riari\Forum\Models\Thread;
 use Riari\Forum\Models\Observers\PostObserver;
 use Riari\Forum\Models\Observers\ThreadObserver;
 
@@ -29,8 +27,8 @@ class ForumServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      *
-     * @param  Router  $router
-     * @param  GateContract  $gate
+     * @param Router $router
+     * @param GateContract $gate
      * @return void
      */
     public function boot(Router $router, GateContract $gate)
@@ -69,11 +67,11 @@ class ForumServiceProvider extends ServiceProvider
     protected function setPublishables()
     {
         $this->publishes([
-            "{$this->baseDir()}config/api.php" => config_path('forum.api.php'),
+            "{$this->baseDir()}config/api.php"         => config_path('forum.api.php'),
             "{$this->baseDir()}config/integration.php" => config_path('forum.integration.php'),
             "{$this->baseDir()}config/preferences.php" => config_path('forum.preferences.php'),
-            "{$this->baseDir()}config/routing.php" => config_path('forum.routing.php'),
-            "{$this->baseDir()}config/validation.php" => config_path('forum.validation.php')
+            "{$this->baseDir()}config/routing.php"     => config_path('forum.routing.php'),
+            "{$this->baseDir()}config/validation.php"  => config_path('forum.validation.php')
         ], 'config');
 
         $this->publishes([
@@ -108,14 +106,14 @@ class ForumServiceProvider extends ServiceProvider
      */
     protected function observeModels()
     {
-        Thread::observe(new ThreadObserver);
-        Post::observe(new PostObserver);
+        forum_thread_class()::observe(new ThreadObserver);
+        forum_post_class()::observe(new PostObserver);
     }
 
     /**
      * Register the package policies.
      *
-     * @param  GateContract  $gate
+     * @param GateContract $gate
      * @return void
      */
     public function registerPolicies(GateContract $gate)
@@ -125,7 +123,9 @@ class ForumServiceProvider extends ServiceProvider
             $gate->define($method, "{$forumPolicy}@{$method}");
         }
 
-        foreach (config('forum.integration.policies.model') as $model => $policy) {
+        foreach (config('forum.integration.policies.model') as $type => $policy) {
+            $model = config("forum.integration.models.{$type}");
+
             $gate->policy($model, $policy);
 
             while ($model && strpos($model, 'Riari\\Forum\\Models\\') !== 0 && $model !== Model::class) {
@@ -138,7 +138,7 @@ class ForumServiceProvider extends ServiceProvider
     /**
      * Load routes.
      *
-     * @param  Router  $router
+     * @param Router $router
      * @return void
      */
     protected function loadRoutes(Router $router)
@@ -146,8 +146,8 @@ class ForumServiceProvider extends ServiceProvider
         $dir = $this->baseDir();
         $router->group([
             'namespace' => 'Riari\Forum\Http\Controllers',
-            'as' => config('forum.routing.as'),
-            'prefix' => config('forum.routing.root')
+            'as'        => config('forum.routing.as'),
+            'prefix'    => config('forum.routing.root')
         ], function ($r) use ($dir) {
             require "{$dir}routes.php";
         });

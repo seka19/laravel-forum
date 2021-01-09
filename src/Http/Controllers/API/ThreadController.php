@@ -3,8 +3,6 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Riari\Forum\Models\Category;
-use Riari\Forum\Models\Post;
 use Riari\Forum\Models\Thread;
 
 class ThreadController extends BaseController
@@ -16,7 +14,7 @@ class ThreadController extends BaseController
      */
     protected function model()
     {
-        return new Thread;
+        return forum_thread();
     }
 
     /**
@@ -88,7 +86,7 @@ class ThreadController extends BaseController
             'content'   => ['required']
         ]);
 
-        $category = Category::find($request->input('category_id'));
+        $category = forum_category_class()::find($request->input('category_id'));
 
         $this->authorize('createThreads', $category);
 
@@ -97,7 +95,7 @@ class ThreadController extends BaseController
         }
 
         $thread = $this->model()->create($request->only(['category_id', 'author_id', 'title']));
-        Post::create(['thread_id' => $thread->id] + $request->only('author_id', 'content'));
+        forum_post_class()::create(['thread_id' => $thread->id] + $request->only('author_id', 'content'));
 
         return $this->response($thread, 201);
     }
@@ -189,7 +187,7 @@ class ThreadController extends BaseController
 
         $thread = $this->model()->find($id);
 
-        $category = Category::find($request->input('category_id'));
+        $category = forum_category_class()::find($request->input('category_id'));
 
         if (!$category->threadsEnabled) {
             return $this->buildFailedValidationResponse($request, trans('forum::validation.category_threads_enabled'));

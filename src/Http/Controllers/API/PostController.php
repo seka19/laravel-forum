@@ -3,7 +3,6 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Riari\Forum\Models\Post;
-use Riari\Forum\Models\Thread;
 
 class PostController extends BaseController
 {
@@ -14,7 +13,7 @@ class PostController extends BaseController
      */
     protected function model()
     {
-        return new Post;
+        return forum_post();
     }
 
     /**
@@ -70,7 +69,7 @@ class PostController extends BaseController
     {
         $this->validate($request, ['thread_id' => ['required'], 'author_id' => ['required'], 'content' => ['required']]);
 
-        $thread = Thread::find($request->input('thread_id'));
+        $thread = forum_thread_class()::find($request->input('thread_id'));
         $this->authorize('reply', $thread);
 
         $post = $this->model()->create($request->only(['thread_id', 'post_id', 'author_id', 'content']));

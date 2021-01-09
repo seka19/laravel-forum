@@ -2,8 +2,6 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Gate;
-use Riari\Forum\Models\Category;
-use Riari\Forum\Models\Post;
 use Riari\Forum\Models\Traits\HasAuthor;
 use Riari\Forum\Support\Traits\CachesData;
 
@@ -56,7 +54,7 @@ class Thread extends BaseModel
      */
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(forum_category_class());
     }
 
     /**
@@ -82,7 +80,7 @@ class Thread extends BaseModel
     public function posts()
     {
         $withTrashed = config('forum.preferences.display_trashed_posts') || Gate::allows('viewTrashedPosts');
-        $query = $this->hasMany(Post::class);
+        $query = $this->hasMany(forum_post_class());
         return $withTrashed ? $query->withTrashed() : $query;
     }
 

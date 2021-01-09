@@ -12,7 +12,7 @@ class PostPolicy
      * @param  Post  $post
      * @return bool
      */
-    public function edit($user, Post $post)
+    public function edit($user, $post)
     {
         return $user->getKey() === $post->author_id;
     }
@@ -24,7 +24,7 @@ class PostPolicy
      * @param  Post  $post
      * @return bool
      */
-    public function delete($user, Post $post)
+    public function delete($user, $post)
     {
         return Gate::forUser($user)->allows('deletePosts', $post->thread) || $user->getKey() === $post->author_id;
     }

@@ -11,7 +11,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function createThreads($user, Category $category)
+    public function createThreads($user, $category)
     {
         return true;
     }
@@ -23,7 +23,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function manageThreads($user, Category $category)
+    public function manageThreads($user, $category)
     {
         return $this->deleteThreads($user, $category) ||
                $this->enableThreads($user, $category) ||
@@ -39,7 +39,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function deleteThreads($user, Category $category)
+    public function deleteThreads($user, $category)
     {
         return true;
     }
@@ -51,7 +51,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function enableThreads($user, Category $category)
+    public function enableThreads($user, $category)
     {
         return true;
     }
@@ -63,7 +63,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function moveThreadsFrom($user, Category $category)
+    public function moveThreadsFrom($user, $category)
     {
         return true;
     }
@@ -75,7 +75,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function moveThreadsTo($user, Category $category)
+    public function moveThreadsTo($user, $category)
     {
         return true;
     }
@@ -87,7 +87,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function lockThreads($user, Category $category)
+    public function lockThreads($user, $category)
     {
         return true;
     }
@@ -99,7 +99,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function pinThreads($user, Category $category)
+    public function pinThreads($user, $category)
     {
         return true;
     }
@@ -111,7 +111,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function view($user, Category $category)
+    public function view($user, $category)
     {
         return true;
     }
@@ -123,7 +123,7 @@ class CategoryPolicy
      * @param  Category  $category
      * @return bool
      */
-    public function delete($user, Category $category)
+    public function delete($user, $category)
     {
         return true;
     }

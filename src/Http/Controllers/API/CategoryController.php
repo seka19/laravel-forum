@@ -14,7 +14,7 @@ class CategoryController extends BaseController
      */
     protected function model()
     {
-        return new Category;
+        return forum_category();
     }
 
     /**

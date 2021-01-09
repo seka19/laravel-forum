@@ -1,9 +1,6 @@
 <?php namespace Riari\Forum\Console\Commands;
 
 use Illuminate\Console\Command;
-use Riari\Forum\Models\Category;
-use Riari\Forum\Models\Post;
-use Riari\Forum\Models\Thread;
 use Riari\Forum\Support\Stats;
 
 class RefreshStats extends Command
@@ -30,7 +27,8 @@ class RefreshStats extends Command
     public function handle()
     {
         $totalThreadCount = 0;
-        $categories = Category::all();
+
+        $categories = forum_category_class()::all();
 
         foreach ($categories as $category) {
             $this->info("Updating counts for {$category->title}...");

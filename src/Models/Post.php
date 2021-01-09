@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Riari\Forum\Models\Traits\HasAuthor;
 use Riari\Forum\Support\Traits\CachesData;
 
-class Post extends BaseModel
+class Post extends BaseModelz
 {
     use SoftDeletes, HasAuthor, CachesData;
 
@@ -45,7 +45,7 @@ class Post extends BaseModel
      */
     public function thread()
     {
-        return $this->belongsTo(Thread::class)->withTrashed();
+        return $this->belongsTo(forum_thread_class())->withTrashed();
     }
 
     /**
@@ -55,7 +55,7 @@ class Post extends BaseModel
      */
     public function parent()
     {
-        return $this->belongsTo(Post::class, 'post_id');
+        return $this->belongsTo(forum_post_class(), 'post_id');
     }
 
     /**
@@ -65,7 +65,7 @@ class Post extends BaseModel
      */
     public function children()
     {
-        return $this->hasMany(Post::class, 'post_id')->withTrashed();
+        return $this->hasMany(forum_post_class(), 'post_id')->withTrashed();
     }
 
     /**
